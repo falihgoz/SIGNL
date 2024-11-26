@@ -1,6 +1,7 @@
-# SIGNL
+# SIGNL: Spatio-Temporal Vision Graph Non-Contrastive Learning
 
-This is the code implementation for Spatio-temporal Vision Graph Non-Contrastive Learning for Audio Deepfake Detection.
+This repository contains the implementation of SIGNL, submitted to the 41st IEEE International Conference on Data Engineering (ICDE) 2025.
+
 
 # Installation
 
@@ -20,10 +21,24 @@ pip3 install -r requirements.txt
 - CFAD: [Download](https://zenodo.org/records/8122764)
 - In-The-Wild Dataset: [Download](https://owncloud.fraunhofer.de/index.php/s/JZgXh0JEAF0elxa)
 
-# Dataset Preprocessing
+# Dataset management
 
 This procedure will be updated soon.
 
-# Quick Start
+# Run using pre-trained model
 
 This procedure will be updated soon.
+
+# Train the downstream task using pre-trained encoders
+
+This procedure will be updated soon.
+
+# Run from the sratch
+
+This procedure will be updated soon.
+
+
+
+# Cite this work
+TBD
+

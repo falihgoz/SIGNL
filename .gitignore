@@ -175,7 +175,8 @@ experiment_results.ipynb
 
 #wandb
 wandb
+cut.txt
 
 #to be published
-main.py
-cut.txt
+utils
+nets

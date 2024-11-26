@@ -40,8 +40,8 @@ This procedure will be updated soon.
 ## In-Domain Results
 ![In-Domain](results/indomain.png)
 
-## Out-Domain Results
-![Out-Domain](results/crossdomain.png)
+## Cross-Domain Results
+![Cross-Domain](results/crossdomain.png)
 
 # Cite this work
 TBD

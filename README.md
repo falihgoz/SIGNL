@@ -25,17 +25,56 @@ pip3 install -r requirements.txt
 
 This procedure will be updated soon.
 
-# Run using pre-trained model
+# Run program using pre-trained model
 
-This procedure will be updated soon.
+1. **Download Model**  
+   - [Download here](https://drive.google.com/drive/folders/16F1vfRSpuRWV4bj9xwHhtzXIPdRHpYbo?usp=sharing) and save to `./models`.  
+   - Look for filenames starting with **"pretrained_"** (e.g., `pretrained_W2VSIGNL_CFAD_ep1_bs96_lb100.ckpt`). `lb100` indicates that the model was build with full label information
 
-# Train the downstream task using pre-trained encoders
+2. **Run Command**  
+    ```
+    python main.py --eval_cls True --dataset <dataset_name> --encoder_file <encoder_file>
+    ```
 
-This procedure will be updated soon.
+    Examples:
+   - Full labels:  
+     ```bash
+     python main.py --eval_cls True --dataset CFAD --encoder pretrained_SIGNL_CFAD_ep100_bs96_lb100.ckpt
+     ```
+   - 80% labels:  
+     ```bash
+     python main.py --eval_cls True --dataset CFAD --encoder pretrained_SIGNL_CFAD_ep100_bs96_lb80.ckpt
+     ```
+
+
+# Run the downstream training using pre-trained encoders
+
+1. **Download Encoder**  
+   - [Download here](https://drive.google.com/drive/folders/16F1vfRSpuRWV4bj9xwHhtzXIPdRHpYbo?usp=sharing) and save to `./models`.  
+   - Look for filenames starting with **"encoder_"** (e.g., `encoder_W2VSIGNL_CFAD_ep1_bs96.ckpt`).
+
+2. **Run Command**  
+    ```bash
+    python main.py --training_type classifier --dataset <dataset_name> --encoder_file <encoder_file> --epoch <number_of_epochs> --label_ratio <label_availability_ratio>
+    ```
+    Example:
+    ```bash
+    python main.py --training_type classifier --dataset CFAD --encoder encoder_SIGNL_CFAD_ep100_bs96.ckpt --epoch 100 --label_ratio 0.8
+    ```  
 
 # Run from the sratch
 
-This procedure will be updated soon.
+Example to run SIGNL's pre-training and downstream training simultaneously:
+
+```
+python main.py --training_type full --dataset <dataset_name> --epoch <number_of_epochs> --label_ratio <label_availability_ratio>
+```
+
+For example:
+
+```
+python main.py --training_type full --dataset CFAD --epoch 100 --label_ratio 0.8
+```
 
 ## In-Domain Results
 ![In-Domain](results/indomain.png)

@@ -41,9 +41,9 @@ This procedure will be updated soon.
      ```bash
      python main.py --eval_cls True --dataset CFAD --encoder pretrained_SIGNL_CFAD_ep100_bs96_lb100.ckpt
      ```
-   - 80% labels:  
+   - 5% labels:  
      ```bash
-     python main.py --eval_cls True --dataset CFAD --encoder pretrained_SIGNL_CFAD_ep100_bs96_lb80.ckpt
+     python main.py --eval_cls True --dataset CFAD --encoder pretrained_SIGNL_CFAD_ep100_bs96_lb5.ckpt
      ```
 
 
@@ -78,7 +78,7 @@ Example to run SIGNL's pre-training and downstream training:
 2. **Downstream training**  
     Get the recently pre-trained encoder file under `./models` (e.g., `encoder_W2VSIGNL_CFAD_ep100_bs96.ckpt`).
 
-    For example:
+    Start the downstream training:
     ```bash
     python main.py --training_type classifier --dataset CFAD --encoder encoder_SIGNL_CFAD_ep100_bs96.ckpt --epoch 100 --label_ratio 0.8
     ```  

@@ -128,55 +128,13 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-#dummy
-datasets/DummyDataset.py
+# private
 dump.ipynb
-datasets/local_asvspoof19
-datasets/local_asvspoof21
-datasets/local_itw
-datasets/AudioDataset.py
-datasets/data_loader.py
-
-nets/SIMCLR.py
-nets/SIGNL_raw.py
-nets/LCNN.py
-nets/BYOLA.py
-nets/COLA.py
-nets/MOCO.py
-nets/SSLACL.py
-nets/Wav2Vec2.py
-nets/Whisper.py
-nets/LCNN_ori.py
-nets/SSLforADD.py
-nets/Wav2Vec2_SIGNL.py
-nets/AASIST.py
-
 models
-configs
 slurm
-visualizations
-
-main2.py
 results.csv
 run_experiments.py
 sbatch_run.sh
 sequentialdriver
-
-1_Wav2Vec2_run.py
-2_Whisper_run.py
-3_SIMCLR_run.py
-4_SIGNL_run.py
-5_LCNN_run.py
-6_AASSIST_run.py
-calculate_experiment_metrics.py
-
-experiment_results
-experiment_results.ipynb
-
-#wandb
 wandb
 cut.txt
-
-#to be published
-utils
-nets

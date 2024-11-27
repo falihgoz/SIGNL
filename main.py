@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--training_type",
-        default="classifier",
+        default="full",
         choices=["encoder", "classifier", "full"],
         help="Type of training to perform: 'encoder', 'classifier', or 'full'.",
     )
@@ -49,15 +49,17 @@ if __name__ == "__main__":
     parser.add_argument(
         "--dataset",
         default="ASVspoof2021",
+        choices=["ASVspoof2021", "ASVspoof5", "CFAD", "InTheWild"],
         help=(
             "Dataset to use for training or evaluation. Options for training: "
-            "'asvspoof19', 'asvspoof21', 'CFAD'. Option for evaluation only: 'inthewild'."
+            "'ASVspoof2021', 'ASVspoof5', 'CFAD'. Option for evaluation only: 'InTheWild'."
         ),
     )
 
     parser.add_argument(
         "--model",
-        default="W2VSIGNL",
+        default="SIGNL",
+        choices=["SIGNL"],
         help="Model architecture to use.",
     )
 
@@ -69,9 +71,15 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        "--encoder_path",
+        "--encoder_file",
         default=None,
-        help="Path to a pre-trained encoder model, if available.",
+        help="Pre-trained encoder model, if available.",
+    )
+
+    parser.add_argument(
+        "--visual_type",
+        default="wav2vec2",
+        help="Type of visual representation to use. Currently, only 'wav2vec2' is supported in this repo.",
     )
 
     parser.add_argument(
@@ -152,21 +160,42 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     args = synchronize_inputs(args)
+    
+    if args.dataset == "InTheWild" and not args.cls_eval:
+        raise AssertionError("Dataset 'inthewild' can only be used in evaluation mode.")
+
+    if args.cls_eval and args.encoder_file is None:
+        raise AssertionError("An encoder file must be assigned for evaluation mode.")
+    
+    if args.training_type == "classifier" and args.encoder_file is None:
+        raise AssertionError("An encoder file must be assigned for downstream training.")
+    
+    if args.training_type == "full" and args.label_ratio < 1:
+        raise AssertionError(
+            "The 'full' training mode is only available with label_ratio = 1. "
+            "For label_ratio < 1, run encoder training and downstream training separately."
+        )
+
+    if args.training_type == "encoder" and args.label_ratio < 1:
+        raise AssertionError(
+            "Encoder training must use all available data (label_ratio = 1). "
+            "Note: Encoder training does not involve label usage."
+        )
 
     print("seed number: ", args.seed)
     set_seed(args.seed)
     
-    train_loader, dev_loader, eval_loader, itw_eval_loader = get_dataloader(args)
+    train_loader, dev_loader, eval_loader = get_dataloader(args)
 
     if args.cls_eval:
-        cls_eval_only(args, eval_loader, itw_eval_loader)
+        cls_eval_only(args, eval_loader)
         sys.exit(0)
 
     encoder_training = args.training_type in ["encoder", "full"]
     cls_training = args.training_type in ["classifier", "full"]
 
     if encoder_training:
-        args.encoder_path = start_enc_training(args, train_loader, dev_loader)
+        args.encoder_file = start_enc_training(args, train_loader, dev_loader)
 
     if cls_training:
-        start_cls_training(args, train_loader, dev_loader, eval_loader, itw_eval_loader)
+        start_cls_training(args, train_loader, dev_loader, eval_loader)

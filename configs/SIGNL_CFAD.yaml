@@ -1,0 +1,11 @@
+batch_size: 96
+dropout: 0.1
+lr: 0.0001
+max_audio_len: 144000
+num_k: 4
+num_patches_id: 3
+de: true
+gn: true
+fm: true
+visual_type: "wav2vec"
+seed: 0

@@ -15,28 +15,36 @@ pip3 install -r requirements.txt
 
 # Dataset
 
-- ASVSpoof 2019 Train and Dev: [Download](https://datashare.ed.ac.uk/handle/10283/3336)
-- ASVSpoof 2021 DF Dataset: [Download](https://zenodo.org/records/4835108)
-- For ASVSpoof5, kindly contact to the provider to get the dataset: [https://www.asvspoof.org/](https://www.asvspoof.org/).
-- CFAD: [Download](https://zenodo.org/records/8122764)
-- In-The-Wild Dataset: [Download](https://owncloud.fraunhofer.de/index.php/s/JZgXh0JEAF0elxa)
+## ASVspoof 2021 DF
+- Download `LA.zip` from ASVspoof 2019 for train and dev sets [here](https://datashare.ed.ac.uk/handle/10283/3336) and save it into `./datasets/ASVspoof2021/`
+- Download all `.tar.gz` files for eval sets [here](https://zenodo.org/records/4835108) and save them into `./datasets/ASVspoof2021/`
+- Run: `python ./datasets/ASVspoof2021/prepare_data.py`
 
-# Dataset management
+## ASVspoof 5
+- Request the dataset from [https://www.asvspoof.org/](https://www.asvspoof.org/)
+- Save `flac_T.tar` and `flac_D.tar` into `./datasets/ASVspoof5/`
+- Run: `python ./datasets/ASVspoof5/prepare_data.py`
 
-This procedure will be updated soon.
+## CFAD
+- Download all CFAD's zip files from [here](https://zenodo.org/records/8122764) and save them into `./datasets/CFAD/`
+- Run: `python ./datasets/CFAD/prepare_data.py`
+
+## InTheWild
+- Download `release_in_the_wild.zip` [here](https://owncloud.fraunhofer.de/index.php/s/JZgXh0JEAF0elxa) and save it to `./datasets/InTheWild/`
+- Run: `python ./datasets/InTheWild/prepare_data.py`
 
 # Evaluation using pre-trained model
 
-1. **Download Model**  
-   - [Download here](https://drive.google.com/drive/folders/16F1vfRSpuRWV4bj9xwHhtzXIPdRHpYbo?usp=sharing) and save to `./models`.  
-   - Look for filenames starting with **"pretrained_"** (e.g., `pretrained_W2VSIGNL_CFAD_ep100_bs96_lb100.ckpt`). `lb100` indicates that the model was build with full label information
+- Download encoder file.
+   - Download [here](https://drive.google.com/drive/folders/16F1vfRSpuRWV4bj9xwHhtzXIPdRHpYbo?usp=drive_link) and save to `./models/`.  
+   - Look for filenames starting with **"pretrained_"** (e.g., `pretrained_W2VSIGNL_CFAD_ep100_bs96_lb100.ckpt`). `lb100` indicates that the model was built with full label information.
 
-2. **Run Command**  
+- Run command:  
     ```bash
     python main.py --eval_cls True --dataset <dataset_name> --encoder_file <encoder_file>
     ```
 
-    Examples:
+- Examples:
    - Full labels:  
      ```bash
      python main.py --eval_cls True --dataset CFAD --encoder pretrained_SIGNL_CFAD_ep100_bs96_lb100.ckpt
@@ -46,44 +54,44 @@ This procedure will be updated soon.
      python main.py --eval_cls True --dataset CFAD --encoder pretrained_SIGNL_CFAD_ep100_bs96_lb5.ckpt
      ```
 
+# Downstream training using pre-trained encoders
 
-# Use pre-trained encoders for the downstream training
-
-1. **Download Encoder**  
-   - [Download here](https://drive.google.com/drive/folders/16F1vfRSpuRWV4bj9xwHhtzXIPdRHpYbo?usp=sharing) and save to `./models`.  
+- Download Encoder
+   - Download [here](https://drive.google.com/drive/folders/16F1vfRSpuRWV4bj9xwHhtzXIPdRHpYbo?usp=drive_link) and save to `./models/`.  
    - Look for filenames starting with **"encoder_"** (e.g., `encoder_W2VSIGNL_CFAD_ep100_bs96.ckpt`).
 
-2. **Run Command**  
+- Run Command:  
     ```bash
     python main.py --training_type classifier --dataset <dataset_name> --encoder_file <encoder_file> --epoch <number_of_epochs> --label_ratio <label_availability_ratio>
     ```
-    Example:
+- Example:
     ```bash
     python main.py --training_type classifier --dataset CFAD --encoder encoder_SIGNL_CFAD_ep100_bs96.ckpt --epoch 100 --label_ratio 0.8
     ```  
 
-# Run from the sratch
+# Run from scratch
 
-Example to run SIGNL's pre-training and downstream training:
+Perform pre-training and downstream training from scratch.
 
-1. **Pre-train the encoders**  
+- **Pre-train the encoders**  
+    - Run command:
     ```bash
     python main.py --training_type encoder --dataset <dataset_name> --epoch <number_of_epochs>
     ```
 
-    For example:
+    - Example:
     ```bash
     python main.py --training_type encoder --dataset CFAD --epoch 100
     ```
-2. **Downstream training**  
-    Get the recently pre-trained encoder file under `./models` (e.g., `encoder_W2VSIGNL_CFAD_ep100_bs96.ckpt`).
+- **Downstream training**  
+    - Get the recently pre-trained encoder file under `./models/` (e.g., `encoder_W2VSIGNL_CFAD_ep100_bs96.ckpt`).
 
-    Start the downstream training:
+    - Start the downstream training:
     ```bash
     python main.py --training_type classifier --dataset CFAD --encoder encoder_SIGNL_CFAD_ep100_bs96.ckpt --epoch 100 --label_ratio 0.8
-    ```  
+    ```
 
-
+# Results
 ## In-Domain Results
 ![In-Domain](results/indomain.png)
 

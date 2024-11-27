@@ -25,14 +25,14 @@ pip3 install -r requirements.txt
 
 This procedure will be updated soon.
 
-# Run program using pre-trained model
+# Evaluation using pre-trained model
 
 1. **Download Model**  
    - [Download here](https://drive.google.com/drive/folders/16F1vfRSpuRWV4bj9xwHhtzXIPdRHpYbo?usp=sharing) and save to `./models`.  
-   - Look for filenames starting with **"pretrained_"** (e.g., `pretrained_W2VSIGNL_CFAD_ep1_bs96_lb100.ckpt`). `lb100` indicates that the model was build with full label information
+   - Look for filenames starting with **"pretrained_"** (e.g., `pretrained_W2VSIGNL_CFAD_ep100_bs96_lb100.ckpt`). `lb100` indicates that the model was build with full label information
 
 2. **Run Command**  
-    ```
+    ```bash
     python main.py --eval_cls True --dataset <dataset_name> --encoder_file <encoder_file>
     ```
 
@@ -47,11 +47,11 @@ This procedure will be updated soon.
      ```
 
 
-# Run the downstream training using pre-trained encoders
+# Use pre-trained encoders for the downstream training
 
 1. **Download Encoder**  
    - [Download here](https://drive.google.com/drive/folders/16F1vfRSpuRWV4bj9xwHhtzXIPdRHpYbo?usp=sharing) and save to `./models`.  
-   - Look for filenames starting with **"encoder_"** (e.g., `encoder_W2VSIGNL_CFAD_ep1_bs96.ckpt`).
+   - Look for filenames starting with **"encoder_"** (e.g., `encoder_W2VSIGNL_CFAD_ep100_bs96.ckpt`).
 
 2. **Run Command**  
     ```bash
@@ -64,17 +64,25 @@ This procedure will be updated soon.
 
 # Run from the sratch
 
-Example to run SIGNL's pre-training and downstream training simultaneously:
+Example to run SIGNL's pre-training and downstream training:
 
-```
-python main.py --training_type full --dataset <dataset_name> --epoch <number_of_epochs> --label_ratio <label_availability_ratio>
-```
+1. **Pre-train the encoders**  
+    ```bash
+    python main.py --training_type encoder --dataset <dataset_name> --epoch <number_of_epochs>
+    ```
 
-For example:
+    For example:
+    ```bash
+    python main.py --training_type encoder --dataset CFAD --epoch 100
+    ```
+2. **Downstream training**  
+    Get the recently pre-trained encoder file under `./models` (e.g., `encoder_W2VSIGNL_CFAD_ep100_bs96.ckpt`).
 
-```
-python main.py --training_type full --dataset CFAD --epoch 100 --label_ratio 0.8
-```
+    For example:
+    ```bash
+    python main.py --training_type classifier --dataset CFAD --encoder encoder_SIGNL_CFAD_ep100_bs96.ckpt --epoch 100 --label_ratio 0.8
+    ```  
+
 
 ## In-Domain Results
 ![In-Domain](results/indomain.png)

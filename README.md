@@ -93,11 +93,10 @@ Perform pre-training and downstream training from scratch.
 
 # Results
 ## In-Domain Results
-![In-Domain](results/indomain.jpf)
-<img src="results/indomain.jpf" alt="In-Domain Results">
+![Alt text](results/indomain.png?raw=true "results")
 
 ## Cross-Domain Results
-![Cross-Domain](results/crossdomain.jpf)
+![Alt text](results/crossdomain.png?raw=true "results")
 
 # Cite this work
 TBD

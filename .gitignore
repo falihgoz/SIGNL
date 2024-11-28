@@ -128,6 +128,14 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+#datasets
+datasets/InTheWild/*
+!datasets/InTheWild/prepare_data.py
+datasets/CFAD/*
+!datasets/CFAD/prepare_data.py
+datasets/ASVspoof2021/*
+datasets/ASVspoof5/*
+
 # private
 dump.ipynb
 models

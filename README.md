@@ -27,6 +27,7 @@ pip3 install -r requirements.txt
 
 ## CFAD
 - Download all CFAD's zip files from [here](https://zenodo.org/records/8122764) and save them into `./datasets/CFAD/`
+- Unzip all files into the same folder `./datasets/CFAD/`
 - Run: `python ./datasets/CFAD/prepare_data.py`
 
 ## InTheWild

@@ -56,11 +56,11 @@ pip3 install -r requirements.txt
 
 # Downstream training using pre-trained encoders
 
-- Download Encoder
+- Download encoder file
    - Download [here](https://drive.google.com/drive/folders/16F1vfRSpuRWV4bj9xwHhtzXIPdRHpYbo?usp=drive_link) and save to `./models/`.  
    - Look for filenames starting with **"encoder_"** (e.g., `encoder_W2VSIGNL_CFAD_ep100_bs96.ckpt`).
 
-- Run Command:  
+- Run command:  
     ```bash
     python main.py --training_type classifier --dataset <dataset_name> --encoder_file <encoder_file> --epoch <number_of_epochs> --label_ratio <label_availability_ratio>
     ```
@@ -93,10 +93,11 @@ Perform pre-training and downstream training from scratch.
 
 # Results
 ## In-Domain Results
-![In-Domain](results/indomain.png)
+![In-Domain](results/indomain.jpf)
+<img src="results/indomain.jpf" alt="In-Domain Results">
 
 ## Cross-Domain Results
-![Cross-Domain](results/crossdomain.png)
+![Cross-Domain](results/crossdomain.jpf)
 
 # Cite this work
 TBD

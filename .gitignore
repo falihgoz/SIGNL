@@ -136,9 +136,12 @@ datasets/CFAD/*
 datasets/ASVspoof2021/*
 datasets/ASVspoof5/*
 
+#pre-trained
+models/*
+!models/.gitkeep
+
 # private
 dump.ipynb
-models
 slurm
 results.csv
 run_experiments.py

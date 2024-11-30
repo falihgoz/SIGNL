@@ -134,13 +134,19 @@ datasets/InTheWild/*
 datasets/CFAD/*
 !datasets/CFAD/prepare_data.py
 datasets/ASVspoof2021DF/*
+!datasets/ASVspoof2021DF/prepare_data.py
 datasets/ASVspoof5/*
+!datasets/ASVspoof5/prepare_data.py
+!datasets/ASVspoof5/dev_meta_SIGNL.txt
+!datasets/ASVspoof5/eval_meta_SIGNL.txt
+!datasets/ASVspoof5/train_meta.txt
 
 #pre-trained
 models/*
 !models/.gitkeep
 
 # private
+cut.txt
 dump.ipynb
 slurm
 results.csv
@@ -148,4 +154,3 @@ run_experiments.py
 sbatch_run.sh
 sequentialdriver
 wandb
-cut.txt

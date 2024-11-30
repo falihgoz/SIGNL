@@ -129,6 +129,7 @@ dmypy.json
 .pyre/
 
 #datasets
+datasets/ASVspoof2021/*
 datasets/InTheWild/*
 !datasets/InTheWild/prepare_data.py
 datasets/CFAD/*
@@ -152,5 +153,7 @@ slurm
 results.csv
 run_experiments.py
 sbatch_run.sh
+sbatch_run.py
 sequentialdriver
 wandb
+5250449.out

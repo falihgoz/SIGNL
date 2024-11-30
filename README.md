@@ -18,7 +18,7 @@ pip3 install -r requirements.txt
 
 - Download `LA.zip` from ASVspoof 2019 for train and dev sets [here](https://datashare.ed.ac.uk/handle/10283/3336) and save it into `./datasets/ASVspoof2021DF/`
 - Download all `.tar.gz` files for eval sets [here](https://zenodo.org/records/4835108) and save them into `./datasets/ASVspoof2021DF/`
-- Download the original metadata for eval set [here](https://www.asvspoof.org/asvspoof2021/DF-keys-full.tar.gz) and save it into `./datasets/ASVspoof2021DF/`
+- Download `DF-keys-full.tar.gz` for eval set [here](https://www.asvspoof.org/asvspoof2021/DF-keys-full.tar.gz) and save it into `./datasets/ASVspoof2021DF/`
 - Run: `python ./datasets/ASVspoof2021DF/prepare_data.py`
 
 ## ASVspoof 5
@@ -48,17 +48,47 @@ pip3 install -r requirements.txt
 - Run command:
 
   ```bash
-  python main.py --eval_cls True --dataset <dataset_name> --encoder_file <encoder_file>
+  python main.py --cls_eval True --dataset <dataset_name> --encoder_file <encoder_file>
   ```
 
 - Examples:
-  - Full labels:
+  - Full labels & in-domain evaluation:
     ```bash
-    python main.py --eval_cls True --dataset CFAD --encoder pretrained_SIGNL_CFAD_ep100_bs96_lb100.ckpt
+    $ python main.py --cls_eval True --dataset CFAD --encoder pretrained_SIGNL_CFAD_ep100_bs96_lb100.ckpt
+    Testing DataLoader 0: 100%|██████████| 657/657 [09:03<00:00,  1.21it/s]
+    ####### EVALUATION #######
+    True Negatives (tn): 38501
+    False Positives (fp): 3499
+    False Negatives (fn): 1750
+    True Positives (tp): 19250
+    Accuracy: 0.9166825396825397
+    Equal Error Rate (EER): 8.33%
     ```
-  - 5% labels:
+    
+  - 5% labels & in-domain evaluation:
     ```bash
-    python main.py --eval_cls True --dataset CFAD --encoder pretrained_SIGNL_CFAD_ep100_bs96_lb5.ckpt
+    $ python main.py --cls_eval True --dataset CFAD --encoder pretrained_SIGNL_CFAD_ep100_bs96_lb5.ckpt
+    Testing DataLoader 0: 100%|██████████| 657/657 [02:41<00:00,  4.06it/s]
+    ####### EVALUATION #######
+    True Negatives (tn): 37872
+    False Positives (fp): 4128
+    False Negatives (fn): 2066
+    True Positives (tp): 18934
+    Accuracy: 0.9016825396825396
+    Equal Error Rate (EER): 9.84%
+    ```
+  
+  - 5% labels & cross-domain evaluation:
+    ```bash
+    python main.py --cls_eval True --dataset InTheWild --encoder pretrained_SIGNL_CFAD_ep100_bs96_lb5.ckpt
+    Testing DataLoader 0: 100%|██████████| 332/332 [01:03<00:00,  5.21it/s]
+    ####### EVALUATION #######
+    True Negatives (tn): 10787
+    False Positives (fp): 1029
+    False Negatives (fn): 1740
+    True Positives (tp): 18223
+    Accuracy: 0.9128669876333427
+    Equal Error Rate (EER): 8.72%
     ```
 
 # Downstream training using pre-trained encoders

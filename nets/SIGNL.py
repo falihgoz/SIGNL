@@ -16,6 +16,7 @@ import numpy as np
 import random
 import wandb
 
+
 class GCN(nn.Module):
     def __init__(self, hidden_dim, num_layers, num_heads=4, p=0.0):
         super(GCN, self).__init__()
@@ -61,8 +62,8 @@ class GCN(nn.Module):
                 if m.bias is not None:
                     nn.init.zeros_(m.bias)
             elif isinstance(m, nn.BatchNorm2d) or isinstance(m, nn.InstanceNorm2d):
-                nn.init.ones_(m.weight) 
-                nn.init.zeros_(m.bias) 
+                nn.init.ones_(m.weight)
+                nn.init.zeros_(m.bias)
 
     def forward(self, x, edge_index):
         residual = x
@@ -234,7 +235,7 @@ class W2VGCS_enc_trn(pl.LightningModule):
         )
 
         self.stem = Stem(index_factor=args.num_patches_id, out_dim=num_channel)
-        
+
         self.g = nn.Sequential(
             nn.Linear(flat_dim * 2, 256),
             nn.ReLU(inplace=True),
@@ -323,9 +324,7 @@ class W2VGCS_enc_trn(pl.LightningModule):
         )
 
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(
-            self.parameters(), lr=self.lr, weight_decay=0.0001
-        )
+        optimizer = torch.optim.Adam(self.parameters(), lr=self.lr, weight_decay=0.0001)
         return [optimizer]
 
     def on_train_epoch_end(self):
@@ -363,7 +362,7 @@ class W2VGCS_cls(nn.Module):
         self.wav2vec = Wav2Vec2Model.from_pretrained(self.wav2vec_model)
         fine_tune = True
         for param in self.wav2vec.parameters():
-                param.requires_grad = fine_tune
+            param.requires_grad = fine_tune
 
         possible_node = [4, 8, 16, 32]
         num_node = possible_node[args.num_patches_id]
@@ -393,7 +392,7 @@ class W2VGCS_cls(nn.Module):
             nn.Dropout(p=self.p1),
             nn.Linear(128, 80),
         )
-    
+
     def extract_feature(self, x):
         x = x.squeeze(1)
         if self.training:
@@ -408,7 +407,7 @@ class W2VGCS_cls(nn.Module):
         x1 = self.wav2vec(x1).last_hidden_state
         x1 = x1.transpose(1, 2)
         return x1
-    
+
     def forward(self, x):
         x1 = self.extract_feature(x)
         x1 = x1.unsqueeze(1)

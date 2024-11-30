@@ -12,14 +12,13 @@ class SoftmaxLossFunction(nn.Module):
         self.weight.data.renorm_(2, 1, 1e-5).mul_(1e5)
 
         self.bias = nn.Parameter(torch.zeros(num_classes))
-        if(dataset=="CFAD"):
+        if dataset == "CFAD":
             self.ce = nn.CrossEntropyLoss(weight=torch.FloatTensor([0.33, 0.67]))
         else:
             self.ce = nn.CrossEntropyLoss(weight=torch.FloatTensor([0.1, 0.9]))
 
-        self.logsoftmax = nn.LogSoftmax(dim=1) #addition
-        self.relu = nn.ReLU(inplace=True) #addition
-        
+        self.logsoftmax = nn.LogSoftmax(dim=1)  # addition
+        self.relu = nn.ReLU(inplace=True)  # addition
 
     def forward(self, x, label=None):
         assert x.size(1) == self.in_dim, "Input feature dimension must be 80"

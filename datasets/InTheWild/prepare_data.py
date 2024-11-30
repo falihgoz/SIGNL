@@ -53,7 +53,7 @@ def print_partition_info(file_path, partition_name):
 
 
 # Print statistics for partitions
-print_partition_info(eval_file_path, "Eval")
+print_partition_info(eval_file_path, "eval")
 
 # Clean up the extracted folder
 if os.path.exists(audio_dir):

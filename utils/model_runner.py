@@ -6,20 +6,22 @@ from utils.model_selector import select_enc_model, select_model
 from nets.generic_classifier import GenericClassifier
 import os
 
+
 class ConditionalEarlyStopping(EarlyStopping):
     def __init__(self, train_metric_threshold=0.1, **kwargs):
         super().__init__(**kwargs)
         self.train_metric_threshold = train_metric_threshold
-        self.stop_monitoring = True 
+        self.stop_monitoring = True
 
     def on_train_epoch_end(self, trainer, pl_module):
         train_eer = trainer.callback_metrics.get("train_eer")
 
         if train_eer is not None and train_eer < self.train_metric_threshold:
-            self.stop_monitoring = False 
+            self.stop_monitoring = False
 
         if not self.stop_monitoring:
             super().on_train_epoch_end(trainer, pl_module)
+
 
 def start_enc_training(args, train_loader, dev_loader):
     encoder_model = select_enc_model(args)
@@ -61,6 +63,7 @@ def start_enc_training(args, train_loader, dev_loader):
     print("Saved model:", encoder_checkpoint_callback.best_model_path)
     return os.path.basename(encoder_checkpoint_callback.best_model_path)
 
+
 def start_cls_training(args, train_loader, dev_loader, eval_loader):
     if args.encoder_file is not None:
         print(args.encoder_file)
@@ -81,13 +84,13 @@ def start_cls_training(args, train_loader, dev_loader, eval_loader):
     early_stop_callback = ConditionalEarlyStopping(
         train_metric_threshold=0.1,
         monitor="valid_eer",
-        min_delta=0.00, 
-        # patience=5, 
-        patience=3, 
-        verbose=True, 
-        mode="min"
+        min_delta=0.00,
+        # patience=5,
+        patience=3,
+        verbose=True,
+        mode="min",
     )
-    
+
     print("number of epoch:", args.epoch)
     torch.set_float32_matmul_precision("high")
     cls_trainer = pl.Trainer(
@@ -105,6 +108,7 @@ def start_cls_training(args, train_loader, dev_loader, eval_loader):
 
     cls_trainer.test(dataloaders=eval_loader, ckpt_path="best")
 
+
 def cls_eval_only(args, eval_loader):
     cls_model = select_model(args)
     classifier = GenericClassifier(cls_model, args)
@@ -112,5 +116,7 @@ def cls_eval_only(args, eval_loader):
     classifier.load_state_dict(ckpt["state_dict"], strict=True)
 
     torch.set_float32_matmul_precision("high")
-    cls_trainer = pl.Trainer(args.accelerator, devices=1, logger=False, enable_progress_bar=True)
+    cls_trainer = pl.Trainer(
+        args.accelerator, devices=1, logger=False, enable_progress_bar=True
+    )
     cls_trainer.test(model=classifier, dataloaders=eval_loader)

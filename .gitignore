@@ -133,7 +133,7 @@ datasets/InTheWild/*
 !datasets/InTheWild/prepare_data.py
 datasets/CFAD/*
 !datasets/CFAD/prepare_data.py
-datasets/ASVspoof2021/*
+datasets/ASVspoof2021DF/*
 datasets/ASVspoof5/*
 
 #pre-trained

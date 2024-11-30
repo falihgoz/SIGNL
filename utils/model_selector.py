@@ -1,5 +1,6 @@
 from nets.SIGNL import W2VGCS_cls, W2VGCS_enc_trn
 
+
 def select_enc_model(args):
     model_mapping = {
         "SIGNL": W2VGCS_enc_trn,

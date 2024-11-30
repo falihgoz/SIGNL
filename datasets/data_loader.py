@@ -12,22 +12,22 @@ def get_protocol_dir(dataset_name):
     base_path = Config.base_path
 
     protocol_paths = {
-        "ASVspoof2021": (
-            os.path.join(base_path, "ASVspoof2021/train_meta.txt"),
-            os.path.join(base_path, "ASVspoof2021/dev_meta.txt"),
-            os.path.join(base_path, "ASVspoof2021/eval_meta_old.txt"),
+        "ASVspoof2021DF": (
+            os.path.join(base_path, "ASVspoof2021DF/train_meta.txt"),
+            os.path.join(base_path, "ASVspoof2021DF/dev_meta.txt"),
+            os.path.join(base_path, "ASVspoof2021DF/eval_meta.txt"),
             None,
         ),
         "ASVspoof5": (
             os.path.join(base_path, "ASVspoof5/train_meta.txt"),
-            os.path.join(base_path, "ASVspoof5/dev_meta.txt"),
-            os.path.join(base_path, "ASVspoof5/eval_meta.txt"),
+            os.path.join(base_path, "ASVspoof5/dev_meta_SIGNL.txt"),
+            os.path.join(base_path, "ASVspoof5/eval_meta_SIGNL.txt"),
             None,
         ),
         "InTheWild": (
             None,
             None,
-            os.path.join(base_path, "InTheWild/combined_meta.txt"),
+            os.path.join(base_path, "InTheWild/eval_meta.txt"),
             None,
         ),
         "CFAD": (
@@ -58,7 +58,7 @@ def get_dataloader(args):
     if args.dataset.lower() != "inthewild":
         train_dataset = AudioDataset(train_protocol_path, "train", args)
         dev_dataset = AudioDataset(dev_protocol_path, "dev", args)
-    
+
         train_loader = DataLoader(
             dataset=train_dataset,
             drop_last=True,
@@ -83,7 +83,7 @@ def get_dataloader(args):
     if args.dataset == "CFAD" and eval_unseen_protocol_path:
         unseen_eval_dataset = AudioDataset(eval_unseen_protocol_path, "eval", args)
         eval_dataset = ConcatDataset([eval_dataset, unseen_eval_dataset])
-        
+
     eval_loader = DataLoader(
         dataset=eval_dataset,
         batch_size=args.batch_size,

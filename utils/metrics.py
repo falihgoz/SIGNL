@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.metrics import confusion_matrix
 
+
 def compute_eer(scores, labels):
     if isinstance(scores, list) is False:
         scores = list(scores)

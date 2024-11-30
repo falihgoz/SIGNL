@@ -6,18 +6,21 @@ import numpy as np
 from utils.metrics import compute_metrics
 from nets.softmax_loss import SoftmaxLossFunction
 
+
 class GenericClassifier(pl.LightningModule):
     def __init__(self, model, args):
         super().__init__()
         self.model_name = args.model
         self.dataset_name = args.dataset
         self.epoch = args.epoch
-        self.sweep = None #remove later
+        self.sweep = None  # remove later
         self.lr = args.lr
 
         self.model = model
         in_dim = 80
-        self.criterion = SoftmaxLossFunction(in_dim=in_dim, num_classes=2, dataset=args.dataset)
+        self.criterion = SoftmaxLossFunction(
+            in_dim=in_dim, num_classes=2, dataset=args.dataset
+        )
         self.train_step_outputs = []
         self.validation_step_outputs = []
         self.test_step_outputs = []
@@ -110,16 +113,17 @@ class GenericClassifier(pl.LightningModule):
             if isinstance(callback, pl.callbacks.ModelCheckpoint):
                 checkpoint_callback = callback
                 break
-        
+
         if checkpoint_callback is not None:
             best_model_path = checkpoint_callback.best_model_path
 
         self.test_step_outputs.clear()
 
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(
-            self.parameters(), lr=self.lr, weight_decay=0.0001
-        )
+        optimizer = torch.optim.Adam(self.parameters(), lr=self.lr, weight_decay=0.0001)
 
-        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=10,)
+        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+            optimizer,
+            T_max=10,
+        )
         return [optimizer], [scheduler]

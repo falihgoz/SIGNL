@@ -40,22 +40,32 @@ def synchronize_inputs(args):
     args.visual_type = (
         args.visual_type if args.visual_type is not None else config.get("visual_type")
     )
-    
-    args.seed = (args.seed if args.seed is not None else config.get("seed"))
+
+    args.seed = args.seed if args.seed is not None else config.get("seed")
 
     return args
 
 
-def eval_results_to_csv(model, dataset, label_ratio, epoch, eer, accuracy, encoder_path):
+def eval_results_to_csv(
+    model, dataset, label_ratio, epoch, eer, accuracy, encoder_path
+):
     file_path = "results.csv"
     file_exists = os.path.isfile(file_path)
 
-    with open(
-        file_path, mode="a" if file_exists else "w", newline=""
-    ) as file:
+    with open(file_path, mode="a" if file_exists else "w", newline="") as file:
         writer = csv.writer(file)
         if not file_exists:
             writer.writerow(
-                ["Models", "Dataset", "Label_ratio", "Epochs", "EER", "Accuracy", "Encoder"]
+                [
+                    "Models",
+                    "Dataset",
+                    "Label_ratio",
+                    "Epochs",
+                    "EER",
+                    "Accuracy",
+                    "Encoder",
+                ]
             )
-        writer.writerow([model, dataset, label_ratio, epoch, eer, accuracy, encoder_path])
+        writer.writerow(
+            [model, dataset, label_ratio, epoch, eer, accuracy, encoder_path]
+        )

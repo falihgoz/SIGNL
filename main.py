@@ -15,14 +15,17 @@ import torch
 import pytorch_lightning as pl
 import transformers
 
+
 def set_seed(seed):
     pl.seed_everything(seed, workers=True)
     transformers.set_seed(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = True
 
+
 def str2bool(v):
     return bool(strtobool(v))
+
 
 if __name__ == "__main__":
     warnings.filterwarnings("ignore", category=PossibleUserWarning)
@@ -30,7 +33,7 @@ if __name__ == "__main__":
     warnings.filterwarnings(
         "ignore", ".*Trying to infer the `batch_size` from an ambiguous collection.*"
     )
-    
+
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--seed",
@@ -48,11 +51,11 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--dataset",
-        default="ASVspoof2021",
-        choices=["ASVspoof2021", "ASVspoof5", "CFAD", "InTheWild"],
+        default="ASVspoof2021DF",
+        choices=["ASVspoof2021DF", "ASVspoof5", "CFAD", "InTheWild"],
         help=(
             "Dataset to use for training or evaluation. Options for training: "
-            "'ASVspoof2021', 'ASVspoof5', 'CFAD'. Option for evaluation only: 'InTheWild'."
+            "'ASVspoof2021DF', 'ASVspoof5', 'CFAD'. Option for evaluation only: 'InTheWild'."
         ),
     )
 
@@ -160,16 +163,18 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     args = synchronize_inputs(args)
-    
+
     if args.dataset == "InTheWild" and not args.cls_eval:
         raise AssertionError("Dataset 'inthewild' can only be used in evaluation mode.")
 
     if args.cls_eval and args.encoder_file is None:
         raise AssertionError("An encoder file must be assigned for evaluation mode.")
-    
+
     if args.training_type == "classifier" and args.encoder_file is None:
-        raise AssertionError("An encoder file must be assigned for downstream training.")
-    
+        raise AssertionError(
+            "An encoder file must be assigned for downstream training."
+        )
+
     if args.training_type == "full" and args.label_ratio < 1:
         raise AssertionError(
             "The 'full' training mode is only available with label_ratio = 1. "
@@ -184,7 +189,7 @@ if __name__ == "__main__":
 
     print("seed number: ", args.seed)
     set_seed(args.seed)
-    
+
     train_loader, dev_loader, eval_loader = get_dataloader(args)
 
     if args.cls_eval:

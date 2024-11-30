@@ -11,6 +11,7 @@ from configs.configs import Config
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
+
 class AudioDataset(data.Dataset):
     def __init__(self, protocol_dir, partition, args):
         super(AudioDataset, self).__init__()
@@ -22,7 +23,9 @@ class AudioDataset(data.Dataset):
         self.model = args.model
         self.visual_type = args.visual_type
         self.wav2vec_model = "facebook/wav2vec2-xls-r-300m"
-        self.wav2vec2_extractor = Wav2Vec2FeatureExtractor.from_pretrained(self.wav2vec_model)
+        self.wav2vec2_extractor = Wav2Vec2FeatureExtractor.from_pretrained(
+            self.wav2vec_model
+        )
 
         print("Reading ", protocol_dir)
         protocol_lines = open(protocol_dir).readlines()[1:]

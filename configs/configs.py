@@ -2,5 +2,5 @@ import os
 
 
 class Config:
-    base_path = "..../datasets/AudioDatasets" #adjust this
+    base_path = "./datasets"  # adjust this
     num_workers = 16

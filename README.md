@@ -18,7 +18,7 @@ pip3 install -r requirements.txt
 
 - Download `LA.zip` from ASVspoof 2019 for train and dev sets [here](https://datashare.ed.ac.uk/handle/10283/3336) and save it into `./datasets/ASVspoof2021DF/`
 - Download all `.tar.gz` files for eval sets [here](https://zenodo.org/records/4835108) and save them into `./datasets/ASVspoof2021DF/`
-- Download the original meta data for eval set [here](https://www.asvspoof.org/asvspoof2021/DF-keys-full.tar.gz) and save it into `./datasets/ASVspoof2021DF/`
+- Download the original metadata for eval set [here](https://www.asvspoof.org/asvspoof2021/DF-keys-full.tar.gz) and save it into `./datasets/ASVspoof2021DF/`
 - Run: `python ./datasets/ASVspoof2021DF/prepare_data.py`
 
 ## ASVspoof 5
